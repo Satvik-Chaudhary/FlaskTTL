@@ -25,7 +25,7 @@ def index():
             mp3_path = os.path.join(AUDIO_FOLDER, filename_mp3)
 
             # Convert text to speech
-            engine = pyttsx3.init()
+            engine = pyttsx3.init(driverName='espeak')
             engine.save_to_file(text, wav_path)
             engine.runAndWait()
 
