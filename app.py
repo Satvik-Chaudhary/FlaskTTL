@@ -5,17 +5,24 @@ import time
 import subprocess
 from pydub import AudioSegment
 
-# Check and install eSpeak if missing
-try:
-    subprocess.run(["espeak", "--version"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-except FileNotFoundError:
-    os.system("sudo apt-get update && sudo apt-get install -y espeak")
-
 app = Flask(__name__)
 
 AUDIO_FOLDER = "static/audio"
 if not os.path.exists(AUDIO_FOLDER):
     os.makedirs(AUDIO_FOLDER)
+
+# Function to install eSpeak if not installed
+def install_espeak():
+    try:
+        subprocess.run(["espeak", "--version"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    except FileNotFoundError:
+        print("eSpeak not found. Installing...")
+        subprocess.run(["apt-get", "update"], check=True)
+        subprocess.run(["apt-get", "install", "-y", "espeak"], check=True)
+        print("eSpeak installed successfully.")
+
+# Install eSpeak before initializing pyttsx3
+install_espeak()
 
 @app.route("/", methods=["GET", "POST"])
 def index():
