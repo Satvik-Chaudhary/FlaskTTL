@@ -1,12 +1,3 @@
-services:
-  - type: web
-    name: flask-app
-    env: python
-    plan: free
-    buildCommand: |
-      apt-get update && apt-get install -y espeak
-      pip install -r requirements.txt
-    startCommand: gunicorn app:app
-    envVars:
-      - key: PORT
-        value: 10000
+buildCommand: |
+  apt-get update && apt-get install -y espeak
+  pip install -r requirements.txt
