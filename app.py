@@ -2,7 +2,14 @@ from flask import Flask, render_template, request, send_file
 import pyttsx3
 import os
 import time
+import subprocess
 from pydub import AudioSegment
+
+# Check and install eSpeak if missing
+try:
+    subprocess.run(["espeak", "--version"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+except FileNotFoundError:
+    os.system("sudo apt-get update && sudo apt-get install -y espeak")
 
 app = Flask(__name__)
 
